@@ -6,6 +6,7 @@
     "group:allNonMajor",
     ":enableVulnerabilityAlertsWithLabel(High priority)"
   ],
+  "prHourlyLimit": 0,
   "rebaseStalePrs": true,
   "dependencyDashboard": false,
   "schedule": [
