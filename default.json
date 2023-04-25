@@ -12,6 +12,7 @@
       "automerge": true
     }
   ],
+  "platformAutomerge": true,
   "prHourlyLimit": 0,
   "rebaseStalePrs": true,
   "dependencyDashboard": false,
