@@ -6,6 +6,12 @@
     "group:allNonMajor",
     ":enableVulnerabilityAlertsWithLabel(High priority)"
   ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ],
   "prHourlyLimit": 0,
   "rebaseStalePrs": true,
   "dependencyDashboard": false,
@@ -14,5 +20,6 @@
   ],
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "reviewers": ["team:dev-team"]
 }

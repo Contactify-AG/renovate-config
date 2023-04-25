@@ -20,3 +20,5 @@ Listed are some default configurations, that can be extended from in a `renovate
 | dependencyDashboard                | Provides a dependency dashboard under the issues section of the repo if set to true.    |
 | schedule                           | Renovate runs every hour.                                                               |
 | pre-commit                         | Enable updating of pre-commit hooks.                                                    |
+| reviewers                          | Assigns a person/team when a PR by renovate gets created.                               |
+| packageRules                       | Defines some default config, in this case minor/patch updates get merged automatically. |
