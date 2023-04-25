@@ -15,9 +15,6 @@
   "prHourlyLimit": 0,
   "rebaseStalePrs": true,
   "dependencyDashboard": false,
-  "schedule": [
-    "every 1 hour"
-  ],
   "pre-commit": {
     "enabled": true
   },
