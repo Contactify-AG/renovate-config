@@ -19,5 +19,6 @@
   "pre-commit": {
     "enabled": true
   },
-  "reviewers": ["team:dev-team"]
+  "reviewers": ["team:dev-team"],
+  "labels": ["renovate-bot"]
 }

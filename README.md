@@ -22,3 +22,4 @@ Listed are some default configurations, that can be extended from in a `renovate
 | reviewers                          | Assigns a person/team when a PR by renovate gets created.                               |
 | platformAutomerge                  | Merge PRs if tests pass and no conflicts occur in C/I pipeline.                         |
 | packageRules                       | Defines some default config, in this case minor/patch updates get merged automatically. |
+| labels                             | Adds a label to the PR.                                                                 |
