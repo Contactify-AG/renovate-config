@@ -1,0 +1,27 @@
+default_stages: [ commit ]
+fail_fast: false
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude_types: [ "markdown" ]
+      - id: end-of-file-fixer
+      - id: check-yaml
+
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 37.65.2
+    hooks:
+      - id: renovate-config-validator
+        args: [ --strict, default.json ]
+        files: ^default\.json$
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        # Make sure to keep the allowed prefixes in sync with the ones defined
+        # in the Check PR/ Merge Queue workflow
+        args: [feat, fix, chore, WIP, style]

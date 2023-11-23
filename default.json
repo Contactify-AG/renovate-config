@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     ":semanticCommits",
     "group:allNonMajor",
     ":enableVulnerabilityAlertsWithLabel(High priority)"
@@ -18,7 +18,7 @@
   ],
   "platformAutomerge": true,
   "prHourlyLimit": 0,
-  "rebaseStalePrs": true,
+  "rebaseWhen": "behind-base-branch",
   "dependencyDashboard": false,
   "pre-commit": {
     "enabled": true
