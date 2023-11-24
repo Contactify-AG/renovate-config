@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>Contactify-AG/renovate-config"
+  ],
+  "rebaseWhen": "behind-base-branch",
+  "packageRules": [
+    {
+      // Setup automerge for patch and digest updates
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+  ]
+}
