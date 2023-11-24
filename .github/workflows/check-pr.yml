@@ -40,8 +40,9 @@ jobs:
         run: git fetch origin
         shell: bash
       - name: Get unconventional commits
+        # Min short sha length is 7 https://stackoverflow.com/a/18134919/22496895
         run: |
-          git log ${{ env.BASE_COMMIT_SHA }}..${{ env.HEAD_COMMIT_SHA }} --pretty="format:- \`%h\` \`'%s'\`" | ( grep -E -v "^- \`[a-f0-9]{8,}\` \`'($commit_prefixes)(\(.+\))?:.+'\`$" || true ) > non_conventional.txt
+          git log ${{ env.BASE_COMMIT_SHA }}..${{ env.HEAD_COMMIT_SHA }} --pretty="format:- \`%h\` \`'%s'\`" | ( grep -E -v "^- \`[a-f0-9]{7,}\` \`'($commit_prefixes)(\(.+\))?:.+'\`$" || true ) > non_conventional.txt
         shell: bash
       - name: Check for unconventional commits
         run: |
