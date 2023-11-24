@@ -13,7 +13,7 @@ env:
   HEAD_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
 jobs:
   pre-commit:
-    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.ref, 'renovate/')) }}
+    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'renovate/')) }}
     name: Pre-Commit Linting
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +31,7 @@ jobs:
         run: pre-commit run --all-files --show-diff-on-failure --color=always
         shell: bash
   conventional-commit:
-    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.ref, 'renovate/')) }}
+    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'renovate/')) }}
     name: Conventional commit message format
     runs-on: ubuntu-latest
     env:
