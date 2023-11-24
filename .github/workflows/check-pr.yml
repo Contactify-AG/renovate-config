@@ -9,10 +9,11 @@ concurrency:
   group: ${{ github.event_name == 'merge_group' && format('merge-queue-{0}', github.run_id) || github.event_name == 'pull_request' && format('check-pr-{0}', github.event.number) || format('push-{0}', github.ref) }}
   cancel-in-progress: true
 env:
-  BASE_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || format('origin/main/{0}', github.event.repository.default_branch) }}
+  BASE_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || format('origin/{0}', github.event.repository.default_branch) }}
   HEAD_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha || github.sha }}
 jobs:
   pre-commit:
+    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.ref, 'renovate/')) }}
     name: Pre-Commit Linting
     runs-on: ubuntu-latest
     steps:
@@ -30,6 +31,7 @@ jobs:
         run: pre-commit run --all-files --show-diff-on-failure --color=always
         shell: bash
   conventional-commit:
+    if: ${{ !(github.event_name == 'pull_request' && startsWith(github.ref, 'renovate/')) }}
     name: Conventional commit message format
     runs-on: ubuntu-latest
     env:
