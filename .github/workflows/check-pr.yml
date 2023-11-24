@@ -1,6 +1,8 @@
 name: Check PR
 on:
   pull_request:
+    branches-ignore:
+      - 'renovate/**'
   merge_group:
   push:
     branches:
