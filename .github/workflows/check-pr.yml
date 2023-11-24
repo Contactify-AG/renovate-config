@@ -1,0 +1,58 @@
+name: Check PR
+on:
+  pull_request:
+  merge_group:
+  push:
+    branches:
+      - 'renovate/**'
+concurrency:
+  group: ${{ github.event_name == 'merge_group' && format('merge-queue-{0}', github.run_id) || format('check-pr-{0}', github.event.number) }}
+  cancel-in-progress: true
+env:
+  BASE_COMMIT_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+  HEAD_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.event.merge_group.head_sha }}
+jobs:
+  pre-commit:
+    name: Pre-Commit Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pre-Commit
+        run: python -m pip install pre-commit
+        shell: bash
+      - run: python -m pip freeze --local
+        shell: bash
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-3|${{ env.pythonLocation }}|${{hashFiles('.pre-commit-config.yaml') }}
+      - name: Run Pre-Commit Hooks
+        run: pre-commit run --all-files --show-diff-on-failure --color=always
+        shell: bash
+  conventional-commit:
+    name: Conventional commit message format
+    runs-on: ubuntu-latest
+    env:
+      commit_prefixes:  ${{ github.event_name == 'merge_group' && 'feat|fix|chore|style' || 'feat|fix|chore|style|WIP' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch all refs from origin
+        run: git fetch origin
+        shell: bash
+      - name: Get unconventional commits
+        # Min short sha length is 7 https://stackoverflow.com/a/18134919/22496895
+        run: |
+          git log ${{ env.BASE_COMMIT_SHA }}..${{ env.HEAD_COMMIT_SHA }} --pretty="format:- \`%h\` \`'%s'\`" | ( grep -E -v "^- \`[a-f0-9]{7,}\` \`'($commit_prefixes)(\(.+\))?:.+'\`$" || true ) > non_conventional.txt
+        shell: bash
+      - name: Check for unconventional commits
+        run: |
+          if [ -s non_conventional.txt ]
+          then
+            echo ":x: **Non-zero number of unconventional commit messages:** " | tee message_header.txt
+            cat message_header.txt non_conventional.txt > "$GITHUB_STEP_SUMMARY"
+            cat message_header.txt non_conventional.txt
+            exit 1
+          else
+            echo ":white_check_mark: **All commit messages are in conventional format**" | tee message_header.txt
+            cat message_header.txt > "$GITHUB_STEP_SUMMARY"
+          fi
