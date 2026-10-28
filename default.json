@@ -23,6 +23,7 @@
   "platformAutomerge": true,
   "prHourlyLimit": 0,
   "rebaseWhen": "behind-base-branch",
+  "updateNotScheduled": false,
   "dependencyDashboard": false,
   "pre-commit": {
     "enabled": true
